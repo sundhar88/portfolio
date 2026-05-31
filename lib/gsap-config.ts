@@ -6,7 +6,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
 import { Flip } from 'gsap/Flip';
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
-import Tempus from 'tempus';
 import Lenis from 'lenis';
 
 // Register all GSAP plugins
@@ -33,14 +32,13 @@ export function initGSAPLenis() {
 
   lenisInstance = lenis;
 
-  // Remove GSAP's default ticker
-  gsap.ticker.remove(gsap.updateRoot);
+  // Sync Lenis RAF with GSAP ticker (recommended approach without Tempus)
+  gsap.ticker.add((time) => {
+    lenis.raf(time * 1000);
+  });
 
-  // Add Lenis + GSAP to Tempus unified loop
-  Tempus.add((time: number) => {
-    lenis.raf(time);
-    gsap.updateRoot(time / 1000);
-  }, { priority: 0 });
+  // Prevent GSAP lag smoothing from interfering with Lenis
+  gsap.ticker.lagSmoothing(0);
 
   // Connect Lenis scroll to ScrollTrigger
   lenis.on('scroll', ScrollTrigger.update);
