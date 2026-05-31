@@ -1,0 +1,225 @@
+/* Nav.module.css */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 0 var(--container-pad);
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  transition: background var(--duration-base) var(--ease-out),
+    backdrop-filter var(--duration-base) var(--ease-out),
+    height var(--duration-base) var(--ease-out);
+}
+
+.nav.scrolled {
+  height: 56px;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.navInner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.logo:hover {
+  opacity: 0.7;
+}
+
+.logoDot {
+  color: var(--blue);
+  font-size: 0.6rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-6);
+}
+
+.navLocation {
+  display: none;
+  color: var(--muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+}
+
+@media (min-width: 768px) {
+  .navLocation {
+    display: block;
+  }
+}
+
+/* Menu Button */
+.menuBtn {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: var(--sp-2);
+  background: none;
+  border: none;
+}
+
+.menuBtnLine {
+  display: block;
+  width: 28px;
+  height: 1.5px;
+  background-color: var(--white);
+  transition: all var(--duration-base) var(--ease-out);
+  transform-origin: center;
+}
+
+.menuBtn.active .menuBtnLine:first-child {
+  transform: translateY(3.25px) rotate(45deg);
+}
+
+.menuBtn.active .menuBtnLine:last-child {
+  transform: translateY(-3.25px) rotate(-45deg);
+}
+
+/* Full-screen Overlay Menu */
+.menuOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background-color: var(--black);
+  display: flex;
+  align-items: stretch;
+  will-change: clip-path;
+}
+
+.menuInner {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: calc(var(--nav-height) + var(--sp-16)) var(--container-pad) var(--sp-12);
+}
+
+.menuLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.menuLink {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-4);
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 7rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--white);
+  padding: var(--sp-3) 0;
+  border-bottom: 1px solid var(--border);
+  transition: color var(--duration-fast) var(--ease-out);
+  overflow: hidden;
+  position: relative;
+}
+
+.menuLink:hover {
+  color: var(--blue);
+}
+
+.menuLink:hover .menuLinkArrow {
+  opacity: 1;
+  transform: translateX(0) translateY(0);
+}
+
+.menuLinkIndex {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+  flex-shrink: 0;
+}
+
+.menuLinkText {
+  flex: 1;
+}
+
+.menuLinkArrow {
+  font-size: clamp(1.5rem, 3vw, 3rem);
+  opacity: 0;
+  transform: translateX(-10px) translateY(5px);
+  transition: all var(--duration-base) var(--ease-out);
+  color: var(--blue);
+}
+
+/* Menu Footer */
+.menuFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+}
+
+.menuMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.availDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #22c55e;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.menuSocials {
+  display: flex;
+  gap: var(--sp-6);
+  flex-wrap: wrap;
+}
+
+.menuSocialLink {
+  color: var(--muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.menuSocialLink:hover {
+  color: var(--white);
+}

@@ -1,0 +1,179 @@
+/* About.module.css */
+
+.about {
+  background-color: var(--black);
+  color: var(--white);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-16);
+}
+
+.sectionLabel {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Two-column grid */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-16);
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr 1.4fr;
+    gap: var(--sp-24);
+    align-items: start;
+  }
+}
+
+/* Sticky left column */
+.stickyTitle {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+}
+
+@media (min-width: 1024px) {
+  .stickyTitle {
+    position: sticky;
+    top: calc(var(--nav-height) + var(--sp-8));
+  }
+}
+
+.title {
+  line-height: 1.05;
+  color: var(--white);
+}
+
+.titleBlue {
+  color: var(--blue);
+  display: block;
+}
+
+/* Portrait placeholder box */
+.portraitBox {
+  width: 120px;
+  height: 120px;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  margin-top: var(--sp-4);
+}
+
+.portraitBox::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 255, 0.15) 0%, transparent 100%);
+}
+
+.portraitInner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portraitText {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--blue);
+  opacity: 0.6;
+}
+
+/* Right scrollable content */
+.scrollContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-16);
+}
+
+/* Text block */
+.textBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+}
+
+.lineClip {
+  overflow: hidden;
+  display: block;
+}
+
+/* Skills */
+.skillsBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.skillsLabel {
+  color: var(--muted);
+}
+
+.skillTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.skillTag {
+  border-color: var(--border);
+  color: var(--muted-light);
+  padding: var(--sp-2) var(--sp-4);
+  transition: all var(--duration-fast) var(--ease-out);
+  cursor: default;
+}
+
+.skillTag:hover {
+  border-color: var(--border-blue);
+  color: var(--blue);
+  background-color: var(--blue-dim);
+}
+
+/* Stats */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-8);
+  padding-top: var(--sp-8);
+  border-top: 1px solid var(--border);
+}
+
+@media (min-width: 768px) {
+  .stats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.statValue {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 900;
+  color: var(--white);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  line-height: 1.4;
+}

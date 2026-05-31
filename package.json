@@ -1,0 +1,29 @@
+{
+  "name": "sundhar-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@react-three/drei": "9.122.0",
+    "@react-three/fiber": "8.17.10",
+    "@types/three": "^0.170.0",
+    "gsap": "^3.12.7",
+    "lenis": "^1.2.3",
+    "next": "14.2.29",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tempus": "^0.0.8",
+    "three": "^0.170.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
+    "typescript": "^5.8.3"
+  }
+}

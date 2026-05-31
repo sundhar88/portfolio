@@ -1,0 +1,250 @@
+/* Contact.module.css */
+
+.contact {
+  background-color: var(--off-black);
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+
+.topGlow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--blue) 30%, var(--cyan) 70%, transparent);
+  opacity: 0.5;
+}
+
+.contact::before {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  right: -10%;
+  width: 50%;
+  height: 50%;
+  background: radial-gradient(ellipse, rgba(0, 0, 255, 0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-12);
+}
+
+.sectionLabel {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Headline */
+.headlineWrap {
+  overflow: hidden;
+  margin-bottom: var(--sp-16);
+}
+
+.headline {
+  color: var(--white);
+  overflow: hidden;
+}
+
+/* CTA block */
+.ctaBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+  max-width: 680px;
+  margin-bottom: var(--sp-24);
+}
+
+.ctaText {
+  color: var(--muted-light);
+}
+
+.emailLink {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2.5vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--blue);
+  border-bottom: 1px solid var(--blue);
+  padding-bottom: var(--sp-1);
+  transition: color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    opacity var(--duration-fast) var(--ease-out);
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+  word-break: break-all;
+  max-width: 100%;
+}
+
+.emailLink:hover {
+  color: var(--white);
+  border-color: var(--white);
+  opacity: 0.9;
+}
+
+.actions {
+  display: flex;
+  gap: var(--sp-4);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.ctaBtn {
+  padding: var(--sp-4) var(--sp-8);
+  background-color: var(--blue);
+  color: var(--white);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-family: var(--font-display);
+  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  transition: all var(--duration-base) var(--ease-out);
+}
+
+.ctaBtn:hover {
+  background-color: var(--blue-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 255, 0.3);
+}
+
+.resumeBtn {
+  padding: var(--sp-4) var(--sp-8);
+  border: 1px solid var(--border);
+  color: var(--muted-light);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-family: var(--font-display);
+  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+  transition: all var(--duration-base) var(--ease-out);
+}
+
+.resumeBtn:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  transform: translateY(-2px);
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--sp-8);
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: var(--sp-6);
+}
+
+.footerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.footerName {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+  color: var(--white);
+}
+
+/* Socials */
+.socials {
+  display: flex;
+  gap: var(--sp-6);
+  align-items: center;
+}
+
+.socialLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  transition: all var(--duration-fast) var(--ease-out);
+  position: relative;
+}
+
+.socialLink::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--blue);
+  transform: scaleX(0);
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.socialLink:hover::after {
+  transform: scaleX(1);
+}
+
+.socialShort {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--white);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.socialLink:hover .socialShort {
+  color: var(--blue);
+}
+
+.socialLabel {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.footerRight {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .socials {
+    gap: var(--sp-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .actions {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .ctaBtn,
+  .resumeBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .ctaBlock {
+    max-width: 100%;
+  }
+}
