@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider';
 
-const siteUrl = 'https://sundhar-portfolio.vercel.app';
+const siteUrl = 'https://sundhar.vercel.app';
 
 export const viewport: Viewport = {
   width: 'device-width',
