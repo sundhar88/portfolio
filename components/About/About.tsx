@@ -1,9 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { SplitText } from 'gsap/SplitText';
+import { useRef } from 'react';
 import styles from './About.module.css';
 
 const stats = [
@@ -13,82 +10,29 @@ const stats = [
   { value: '12', label: 'Teams aligned' },
 ];
 
+const FigmaIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    style={{ display: 'inline-block', verticalAlign: 'middle', flexShrink: 0, width: '14px', height: '14px' }}
+  >
+    <path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z" />
+  </svg>
+);
+
 const skills = [
-  'Design Systems',
-  'Product Strategy',
-  'UX Research',
-  'Interaction Design',
-  'Accessibility',
-  'Prototyping',
-  'Design Tokens',
-  'User Testing',
+  { name: 'Design Systems', iconType: 'simple', iconName: 'figma' },
+  { name: 'Product Strategy', iconType: 'material', iconName: 'insights' },
+  { name: 'UX Research', iconType: 'material', iconName: 'psychology' },
+  { name: 'Interaction Design', iconType: 'material', iconName: 'ads_click' },
+  { name: 'Accessibility', iconType: 'material', iconName: 'accessibility_new' },
+  { name: 'Prototyping', iconType: 'material', iconName: 'deployed_code' },
+  { name: 'Design Tokens', iconType: 'material', iconName: 'token' },
+  { name: 'User Testing', iconType: 'material', iconName: 'groups' },
 ];
 
 export default function About() {
   const sectionRef = useRef<HTMLElement>(null);
-  const stickyRef = useRef<HTMLDivElement>(null);
-  const textBlockRef = useRef<HTMLDivElement>(null);
-  const statsRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const ctx = gsap.context(() => {
-      // Paragraph line reveals
-      const paras = textBlockRef.current?.querySelectorAll('p');
-      paras?.forEach((p) => {
-        const split = new SplitText(p, { type: 'lines', linesClass: styles.lineClip });
-        ScrollTrigger.create({
-          trigger: p,
-          start: 'top 80%',
-          onEnter: () => {
-            gsap.fromTo(
-              split.lines,
-              { y: '100%', opacity: 0 },
-              { y: '0%', opacity: 1, stagger: 0.08, duration: 0.8, ease: 'power3.out' }
-            );
-          },
-          once: true,
-        });
-      });
-
-      // Stat count-up animations
-      const statNums = statsRef.current?.querySelectorAll(`.${styles.statValue}`);
-      statNums?.forEach((el) => {
-        ScrollTrigger.create({
-          trigger: el,
-          start: 'top 85%',
-          onEnter: () => {
-            gsap.fromTo(
-              el,
-              { y: 30, opacity: 0 },
-              { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out' }
-            );
-          },
-          once: true,
-        });
-      });
-
-      // Skills tags stagger
-      const tags = sectionRef.current?.querySelectorAll(`.${styles.skillTag}`);
-      if (tags) {
-        ScrollTrigger.create({
-          trigger: statsRef.current,
-          start: 'top 75%',
-          onEnter: () => {
-            gsap.fromTo(
-              tags,
-              { y: 20, opacity: 0, scale: 0.95 },
-              { y: 0, opacity: 1, scale: 1, stagger: 0.06, duration: 0.5, ease: 'power3.out' }
-            );
-          },
-          once: true,
-        });
-      }
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
     <section ref={sectionRef} id="about" className={`${styles.about} section`}>
@@ -101,7 +45,7 @@ export default function About() {
 
         <div className={styles.grid}>
           {/* Left — Sticky title */}
-          <div ref={stickyRef} className={styles.stickyTitle}>
+          <div className={styles.stickyTitle}>
             <h2 className={`${styles.title} display-md`}>
               Designing<br />
               with<br />
@@ -116,7 +60,7 @@ export default function About() {
 
           {/* Right — Scrollable content */}
           <div className={styles.scrollContent}>
-            <div ref={textBlockRef} className={styles.textBlock}>
+            <div className={styles.textBlock}>
               <p className="body-lg">
                 I&apos;m Sundhar M, a Product Designer based in Chennai, India. I believe the best design is the kind users never notice — it just works, seamlessly and accessibly.
               </p>
@@ -133,13 +77,21 @@ export default function About() {
               <span className={`${styles.skillsLabel} label`}>Capabilities</span>
               <div className={styles.skillTags}>
                 {skills.map((skill) => (
-                  <span key={skill} className={`${styles.skillTag} tag`}>{skill}</span>
+                  <span key={skill.name} className={`${styles.skillTag} tag`}>
+                    {skill.iconType === 'simple' && skill.iconName === 'figma' && (
+                      <FigmaIcon />
+                    )}
+                    {skill.iconType === 'material' && (
+                      <span className="material-symbols-rounded">{skill.iconName}</span>
+                    )}
+                    <span>{skill.name}</span>
+                  </span>
                 ))}
               </div>
             </div>
 
             {/* Stats */}
-            <div ref={statsRef} className={styles.stats}>
+            <div className={styles.stats}>
               {stats.map((stat) => (
                 <div key={stat.label} className={styles.stat}>
                   <span className={`${styles.statValue} display-md`}>{stat.value}</span>

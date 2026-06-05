@@ -1,14 +1,63 @@
-/* work.module.css */
+/* WorkDetailModal.module.css */
 
-.article {
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background-color: #0a0a0a;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.modalContent {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
   background-color: var(--black);
   color: var(--white);
-  min-height: 100vh;
+  padding-bottom: var(--sp-24);
+}
+
+.closeButton {
+  position: fixed;
+  top: var(--sp-6);
+  right: var(--sp-6);
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  backdrop-filter: blur(4px);
+  outline: none;
+}
+
+.closeButton:hover {
+  background: var(--white);
+  color: var(--black);
+  border-color: var(--white);
+}
+
+.closeButton span {
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
+.article {
+  width: 100%;
 }
 
 /* Hero banner */
 .hero {
-  padding-top: calc(var(--nav-height) + var(--sp-16));
+  padding-top: var(--sp-24);
   padding-bottom: var(--sp-24);
   position: relative;
 }
@@ -39,6 +88,10 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.7);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
   transition: color var(--duration-fast) var(--ease-out);
 }
 
@@ -67,7 +120,7 @@
 .metaItem {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-1);
+  gap: var(--sp-2);
 }
 
 .metaItem span {
@@ -84,11 +137,11 @@
 
 /* Body */
 .body {
-  padding-top: var(--sp-24);
-  padding-bottom: var(--sp-32);
+  padding-top: var(--sp-12);
+  padding-bottom: var(--sp-24);
   display: flex;
   flex-direction: column;
-  gap: var(--sp-24);
+  gap: var(--sp-16);
 }
 
 .section {
@@ -208,7 +261,7 @@
 .projectNav {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding-top: var(--sp-12);
   border-top: 1px solid var(--border);
 }
@@ -219,6 +272,10 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
   transition: color var(--duration-fast) var(--ease-out);
 }
 
@@ -228,7 +285,7 @@
 
 @media (max-width: 768px) {
   .hero {
-    padding-top: calc(var(--nav-height) + var(--sp-8));
+    padding-top: var(--sp-16);
     padding-bottom: var(--sp-16);
   }
 
@@ -241,9 +298,16 @@
   }
 
   .body {
-    padding-top: var(--sp-16);
-    padding-bottom: var(--sp-16);
+    padding-top: var(--sp-12);
+    padding-bottom: var(--sp-12);
     gap: var(--sp-16);
+  }
+
+  .closeButton {
+    top: var(--sp-4);
+    right: var(--sp-4);
+    width: 44px;
+    height: 44px;
   }
 }
 
@@ -263,4 +327,3 @@
     grid-template-columns: 1fr 1fr;
   }
 }
-

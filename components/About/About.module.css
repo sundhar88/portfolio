@@ -52,8 +52,9 @@
 }
 
 .titleBlue {
-  color: var(--blue);
+  color: var(--white);
   display: block;
+  opacity: 0.5;
 }
 
 /* Portrait placeholder box */
@@ -87,7 +88,7 @@
 .portraitText {
   font-family: var(--font-display);
   font-size: 3rem;
-  font-weight: 900;
+  font-weight: 400;
   color: var(--blue);
   opacity: 0.6;
 }
@@ -129,6 +130,9 @@
 }
 
 .skillTag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
   border-color: var(--border);
   color: var(--muted-light);
   padding: var(--sp-2) var(--sp-4);
@@ -136,10 +140,16 @@
   cursor: default;
 }
 
+.skillTag :global(.material-symbols-rounded) {
+  font-size: 1.1rem;
+  line-height: 1;
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20;
+}
+
 .skillTag:hover {
-  border-color: var(--border-blue);
-  color: var(--blue);
-  background-color: var(--blue-dim);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--white);
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 /* Stats */
@@ -165,7 +175,7 @@
 
 .statValue {
   font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 900;
+  font-weight: 400;
   color: var(--white);
   letter-spacing: -0.04em;
   line-height: 1;

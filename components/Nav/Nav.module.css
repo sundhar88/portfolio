@@ -135,7 +135,7 @@
   gap: var(--sp-4);
   font-family: var(--font-display);
   font-size: clamp(3rem, 8vw, 7rem);
-  font-weight: 900;
+  font-weight: 400;
   letter-spacing: -0.03em;
   text-transform: uppercase;
   color: var(--white);
@@ -147,7 +147,7 @@
 }
 
 .menuLink:hover {
-  color: var(--blue);
+  color: var(--off-white);
 }
 
 .menuLink:hover .menuLinkArrow {
@@ -174,7 +174,7 @@
   opacity: 0;
   transform: translateX(-10px) translateY(5px);
   transition: all var(--duration-base) var(--ease-out);
-  color: var(--blue);
+  color: var(--white);
 }
 
 /* Menu Footer */

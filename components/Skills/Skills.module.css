@@ -65,8 +65,10 @@
 /* Base tile */
 .tile {
   display: flex;
-  align-items: flex-end;
-  padding: var(--sp-3);
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: var(--sp-4);
   position: relative;
   overflow: hidden;
   cursor: default;
@@ -81,7 +83,7 @@
 
 .tileLabel {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 400;
   font-size: 0.85rem;
   letter-spacing: -0.01em;
   line-height: 1.2;
@@ -181,8 +183,47 @@
 }
 
 .toolIcon {
-  color: var(--blue);
-  font-size: 0.75rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.toolIcon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.toolIcon :global(.material-symbols-rounded) {
+  font-size: 1rem;
+  line-height: 1;
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20;
+}
+
+.tileIcon {
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.tileIcon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.tileIcon :global(.material-symbols-rounded) {
+  font-size: 1.35rem;
+  line-height: 1;
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
 }
 
 .toolLabel {

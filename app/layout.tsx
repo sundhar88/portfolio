@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider';
+import GradualBlur from '@/components/GradualBlur/GradualBlur';
+import ButtonTiltEffect from '@/components/providers/ButtonTiltEffect';
 
 const siteUrl = 'https://sundhar88.vercel.app';
 
@@ -85,10 +87,22 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" />
       </head>
       <body>
         <SmoothScrollProvider>
           {children}
+          <ButtonTiltEffect />
+          <GradualBlur
+            target="page"
+            position="bottom"
+            height="8rem"
+            strength={3}
+            divCount={8}
+            curve="ease-out"
+            exponential={true}
+            zIndex={1000}
+          />
         </SmoothScrollProvider>
       </body>
     </html>

@@ -1,19 +1,15 @@
 'use client';
 
-import { useEffect, useRef, Suspense } from 'react';
-import dynamic from 'next/dynamic';
+import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { SplitText } from 'gsap/SplitText';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Hero.module.css';
-
-const HeroScene = dynamic(() => import('./HeroScene'), {
-  ssr: false,
-  loading: () => <div className={styles.scenePlaceholder} />,
-});
+import LiquidEther from './LiquidEther';
 
 export default function Hero() {
   const containerRef = useRef<HTMLElement>(null);
+  const sceneRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const taglineRef = useRef<HTMLSpanElement>(null);
@@ -104,7 +100,24 @@ export default function Hero() {
         );
       }
 
-      // Scroll out animation — hero fades as user scrolls
+      // Canvas background fades out as user scrolls
+      if (sceneRef.current) {
+        ScrollTrigger.create({
+          trigger: containerRef.current,
+          start: 'top top',
+          end: '80% top',
+          scrub: 1.5,
+          onUpdate: (self) => {
+            if (sceneRef.current) {
+              gsap.set(sceneRef.current, {
+                opacity: 1 - self.progress,
+              });
+            }
+          },
+        });
+      }
+
+      // Content parallax — slides up gently on scroll
       ScrollTrigger.create({
         trigger: containerRef.current,
         start: 'top top',
@@ -112,8 +125,7 @@ export default function Hero() {
         scrub: true,
         onUpdate: (self) => {
           gsap.set(containerRef.current, {
-            y: self.progress * 80,
-            opacity: 1 - self.progress * 0.6,
+            y: self.progress * 60,
           });
         },
       });
@@ -124,32 +136,44 @@ export default function Hero() {
 
   return (
     <section ref={containerRef} className={styles.hero} id="hero" aria-label="Hero section">
-      {/* Three.js Background Scene */}
-      <div className={styles.sceneWrapper} aria-hidden="true">
-        <Suspense fallback={<div className={styles.scenePlaceholder} />}>
-          <HeroScene />
-        </Suspense>
+      {/* Background Graphic Placeholder — fades on scroll independently */}
+      <div ref={sceneRef} className={styles.sceneWrapper} aria-hidden="true">
+        <LiquidEther
+          colors={['#0000ff', '#0050ef', '#00aba9']}
+          mouseForce={22}
+          cursorSize={80}
+          isViscous={true}
+          viscous={30}
+          iterationsViscous={32}
+          iterationsPoisson={32}
+          resolution={0.5}
+          isBounce={false}
+          autoDemo={true}
+          autoSpeed={0.4}
+          autoIntensity={1.8}
+        />
       </div>
 
       {/* Content */}
       <div className={`${styles.content} container`}>
-        {/* Label */}
-        <span ref={taglineRef} className={`${styles.labelTag} label`}>
-          Product Designer
-        </span>
+        {/* Top meta row */}
+        <div className={styles.topMeta}>
+          <span ref={taglineRef} className={`${styles.labelTag} label`}>
+            Product Designer
+          </span>
+        </div>
 
-        {/* Main headline */}
+        {/* Main headline - Your Name */}
         <div className={styles.headlineWrap}>
           <h1 ref={headlineRef} className={`${styles.headline} display-xl`}>
-            Less,<br />but better.
+            Sundhar M.
           </h1>
         </div>
 
         {/* Subtitle */}
         <div className={styles.subtitleWrap}>
           <p ref={subtitleRef} className={`${styles.subtitle} body-lg`}>
-            I design systems and products that are<br />
-            precise, accessible, and quietly powerful.
+            I design systems and products that are precise, accessible, and quietly powerful.
           </p>
         </div>
 
@@ -173,7 +197,7 @@ export default function Hero() {
 
       {/* Bottom border */}
       <div className={styles.heroBorder} aria-hidden="true">
-        <span className={`${styles.borderLabel} label`}>© 2024</span>
+        <span className={`${styles.borderLabel} label`}>© 2025</span>
         <span className={`${styles.borderLabel} label`}>Chennai, IN</span>
       </div>
     </section>

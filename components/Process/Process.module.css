@@ -76,6 +76,7 @@
   position: relative;
   align-items: start;
   opacity: 0;
+  overflow: hidden;
   transition: background var(--duration-fast) var(--ease-out);
 }
 
@@ -111,7 +112,7 @@
 
 .stepTitle {
   font-size: clamp(1.6rem, 3vw, 2.5rem);
-  font-weight: 800;
+  font-weight: 400;
   color: var(--white);
   letter-spacing: -0.03em;
   line-height: 1;
@@ -124,14 +125,13 @@
   max-width: 600px;
 }
 
-/* Left accent bar on active step */
 .stepLine {
   position: absolute;
   left: -var(--container-pad);
   top: 0;
   bottom: 0;
   width: 2px;
-  background-color: var(--step-accent, var(--blue));
+  background-color: var(--white);
   transform: scaleY(0);
   transform-origin: top;
   transition: transform var(--duration-base) var(--ease-out);
@@ -169,5 +169,58 @@
   .titleStroke {
     -webkit-text-stroke: 1px var(--white);
   }
+}
+
+/* Flowing Menu Marquee Styles */
+.marquee {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transform: translate3d(0, 101%, 0);
+  z-index: 5;
+}
+
+.marqueeInnerWrap {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.marqueeInner {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 100%;
+  width: fit-content;
+  will-change: transform;
+}
+
+.marqueePart {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.marqueeText {
+  white-space: nowrap;
+  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1;
+  padding: 0 1vw;
+}
+
+.marqueeImg {
+  width: 120px;
+  height: 5vh;
+  margin: 0 1vw;
+  border-radius: 40px;
+  background-size: cover;
+  background-position: center;
 }
 

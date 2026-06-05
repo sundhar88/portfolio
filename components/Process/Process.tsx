@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Process.module.css';
+import ProcessStep from './ProcessStep';
 
 const steps = [
   {
@@ -12,6 +13,7 @@ const steps = [
     description:
       'Before sketching a single frame, I immerse myself in the problem space. User interviews, heuristic audits, competitive analysis — I collect signal until the real problem becomes undeniable.',
     accent: '#0000FF',
+    image: '/understand_step_bg.png',
   },
   {
     number: '02',
@@ -19,6 +21,7 @@ const steps = [
     description:
       'I synthesize research into clear problem statements and measurable success criteria. A well-defined problem is half the solution. I document assumptions explicitly so we can test them.',
     accent: '#00ABA9',
+    image: '/define_step_bg.png',
   },
   {
     number: '03',
@@ -26,6 +29,7 @@ const steps = [
     description:
       'Exploration is fast and wide. Lo-fi wireframes, multiple divergent concepts, rapid prototyping. I design to think — not to present. The polish comes after we\'ve validated the direction.',
     accent: '#0050EF',
+    image: '/design_step_bg.png',
   },
   {
     number: '04',
@@ -33,6 +37,7 @@ const steps = [
     description:
       'Real users, real feedback. Usability sessions, A/B tests, accessibility audits. I treat design artifacts as hypotheses — the test results are the truth.',
     accent: '#FF0097',
+    image: '/test_step_bg.png',
   },
   {
     number: '05',
@@ -40,6 +45,7 @@ const steps = [
     description:
       'Design doesn\'t end at handoff. I collaborate closely with engineers through implementation, maintain design system parity, and measure impact post-launch. Shipping is the beginning.',
     accent: '#0000FF',
+    image: '/ship_step_bg.png',
   },
 ];
 
@@ -78,9 +84,9 @@ export default function Process() {
           trigger: step,
           start: 'top 60%',
           end: 'bottom 40%',
-          onEnter: () => gsap.to(num, { color: 'var(--blue)', duration: 0.4 }),
+          onEnter: () => gsap.to(num, { color: 'var(--white)', duration: 0.4 }),
           onLeave: () => gsap.to(num, { color: 'rgba(255,255,255,0.05)', duration: 0.4 }),
-          onEnterBack: () => gsap.to(num, { color: 'var(--blue)', duration: 0.4 }),
+          onEnterBack: () => gsap.to(num, { color: 'var(--white)', duration: 0.4 }),
           onLeaveBack: () => gsap.to(num, { color: 'rgba(255,255,255,0.05)', duration: 0.4 }),
         });
       });
@@ -108,19 +114,9 @@ export default function Process() {
           </p>
         </div>
 
-        {/* Steps */}
         <div className={styles.steps}>
           {steps.map((step) => (
-            <div key={step.number} className={styles.step} style={{ '--step-accent': step.accent } as React.CSSProperties}>
-              <div className={styles.stepLeft}>
-                <span className={styles.stepNumber}>{step.number}</span>
-              </div>
-              <div className={styles.stepRight}>
-                <h3 className={`${styles.stepTitle} display-md`}>{step.title}</h3>
-                <p className={`${styles.stepDesc} body-lg`}>{step.description}</p>
-              </div>
-              <div className={styles.stepLine} aria-hidden="true"></div>
-            </div>
+            <ProcessStep key={step.number} {...step} />
           ))}
         </div>
       </div>
