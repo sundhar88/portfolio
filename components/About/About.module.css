@@ -98,6 +98,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--sp-16);
+  min-width: 0;
 }
 
 /* Text block */
@@ -123,10 +124,11 @@
   color: var(--muted);
 }
 
-.skillTags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-2);
+.skillsLoopContainer {
+  margin-top: var(--sp-4);
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .skillTag {
@@ -138,6 +140,7 @@
   padding: var(--sp-2) var(--sp-4);
   transition: all var(--duration-fast) var(--ease-out);
   cursor: default;
+  white-space: nowrap;
 }
 
 .skillTag :global(.material-symbols-rounded) {

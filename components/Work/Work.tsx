@@ -70,7 +70,20 @@ export default function Work() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeProjectSlug, setActiveProjectSlug] = useState<string | null>(null);
+  const [visibleCardsCount, setVisibleCardsCount] = useState(4);
+  const [isMobile, setIsMobile] = useState(false);
   const fluidLineRef = useRef<SVGPathElement>(null);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const media = window.matchMedia('(max-width: 768px)');
+    const listener = (e: MediaQueryListEvent | MediaQueryList) => {
+      setIsMobile(e.matches);
+    };
+    media.addEventListener('change', listener);
+    listener(media);
+    return () => media.removeEventListener('change', listener);
+  }, []);
 
   useEffect(() => {
     const handlePopState = (e: PopStateEvent) => {
@@ -111,8 +124,8 @@ export default function Work() {
 
       const mm = gsap.matchMedia();
 
-      // Desktop & Tablet (>= 768px): Pinned 3D roundabout + fluid line
-      mm.add("(min-width: 768px)", () => {
+      // Desktop & Tablet (>= 769px): Pinned 3D roundabout + fluid line
+      mm.add("(min-width: 769px)", () => {
         let lastActiveIndex = 0;
 
         // Position cards off-screen left immediately on mount to prevent layout flash
@@ -185,8 +198,9 @@ export default function Work() {
         const pathEl = fluidLineRef.current;
         if (pathEl) {
           const length = pathEl.getTotalLength();
-          const segmentLength = Math.max(600, length * 0.5);
-          pathEl.style.strokeDasharray = `${segmentLength} ${length}`;
+          const segmentLength = length * 0.7; // 70% of path is the visible line segment
+          const gapLength = length + segmentLength; // mathematically prevents wrap-around
+          pathEl.style.strokeDasharray = `${segmentLength} ${gapLength}`;
           gsap.set(pathEl, { strokeDashoffset: segmentLength });
 
           tl.to(pathEl, {
@@ -216,8 +230,8 @@ export default function Work() {
         }
       });
 
-      // Mobile (< 768px): Smooth vertical list with simple fade-up transitions
-      mm.add("(max-width: 767px)", () => {
+      // Mobile (<= 768px): Smooth vertical list with simple fade-up transitions
+      mm.add("(max-width: 768px)", () => {
         // Reset active index to first card
         setActiveIndex(0);
 
@@ -263,7 +277,7 @@ export default function Work() {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [isMobile, visibleCardsCount]);
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
     if (cursorRef.current && cursorRef.current.parentElement) {
@@ -347,24 +361,14 @@ export default function Work() {
       <div className={styles.stickyContainer}>
         {/* Background Fluid Line SVG */}
         <svg className={styles.fluidLineSvg} viewBox="0 0 1920 1080" preserveAspectRatio="none" aria-hidden="true">
-          <defs>
-            <filter id="fluid-glow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="8" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
           <path
             ref={fluidLineRef}
-            d="M 0,50 C 300,800 500,150 900,700 C 1200,1100 1500,300 1920,1000"
+            d="M 0,0 C 200,900 450,50 750,850 C 1050,150 1300,950 1550,100 C 1750,850 1850,450 1920,540"
             stroke="var(--blue)"
             strokeWidth="64"
             strokeLinecap="round"
             strokeLinejoin="round"
             fill="none"
-            filter="url(#fluid-glow)"
           />
         </svg>
 
@@ -388,7 +392,9 @@ export default function Work() {
         {/* Circle Gallery */}
         <div ref={containerRef} className={styles.galleryContainer}>
           <div ref={wheelRef} className={styles.wheel}>
-            {uniqueProjects.map((project, index) => {
+            {uniqueProjects
+              .slice(0, isMobile ? visibleCardsCount : uniqueProjects.length)
+              .map((project, index) => {
               const isActive = index === activeIndex;
               const distance = getCircularDistance(index, activeIndex);
               const isAdjacent = distance === 1;
@@ -401,8 +407,7 @@ export default function Work() {
                     cardsRef.current[index] = el;
                   }}
                   className={`${styles.wheelCardWrapper} ${isActive ? styles.active : ''
-                    } ${isAdjacent ? styles.adjacent : ''} ${distance > 1 ? styles.inactiveFar : ''
-                    }`}
+                    } ${isAdjacent ? styles.adjacent : ''} ${distance > 1 ? styles.inactiveFar : ''}`}
                   style={{
                     '--rotation': `${angle}deg`,
                     '--accent': project.accentColor,
@@ -463,6 +468,23 @@ export default function Work() {
               );
             })}
           </div>
+
+          {/* Load More Button for Mobile responsive viewport */}
+          {visibleCardsCount < uniqueProjects.length && (
+            <div className={styles.loadMoreWrapper}>
+              <button
+                className="btn btn-outline"
+                onClick={() => {
+                  setVisibleCardsCount(uniqueProjects.length);
+                  setTimeout(() => {
+                    ScrollTrigger.refresh();
+                  }, 100);
+                }}
+              >
+                Load More
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

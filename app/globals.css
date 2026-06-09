@@ -222,7 +222,7 @@ h6 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--blue);
+  background: var(--white);
   border-radius: 2px;
 }
 
@@ -348,4 +348,19 @@ img {
 /* --- Hide navigation when modal is active --- */
 body.modal-open #main-nav {
   display: none !important;
+}
+
+/* --- Hide gradual blur when nav menu is open --- */
+body.nav-menu-open .gradual-blur {
+  display: none !important;
+}
+
+/* --- Gradual blur smooth fade for clean hero section --- */
+.gradual-blur {
+  transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+body:not(.body-scrolled) .gradual-blur {
+  opacity: 0 !important;
+  pointer-events: none !important;
 }

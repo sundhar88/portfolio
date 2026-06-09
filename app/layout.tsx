@@ -96,7 +96,7 @@ export default function RootLayout({
           <GradualBlur
             target="page"
             position="bottom"
-            height="8rem"
+            height="4rem"
             strength={3}
             divCount={8}
             curve="ease-out"

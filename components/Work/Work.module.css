@@ -6,6 +6,8 @@
   position: relative;
   overflow: hidden;
   width: 100%;
+  padding-top: var(--sp-16) !important;
+  padding-bottom: var(--sp-16) !important;
 }
 
 .stickyContainer {
@@ -324,8 +326,17 @@
   opacity: 0.65;
 }
 
+.loadMoreWrapper {
+  display: none;
+}
+
 /* Mobile responsive fixes */
 @media (max-width: 768px) {
+  .work {
+    padding-top: var(--sp-8) !important;
+    padding-bottom: var(--sp-8) !important;
+  }
+
   .stickyContainer {
     height: auto !important;
     padding: var(--sp-6) 0;
@@ -338,6 +349,8 @@
     flex-direction: column;
     gap: var(--sp-6);
     margin-top: var(--sp-6);
+    padding: 0 var(--sp-6); /* Keep cards within page margins */
+    box-sizing: border-box;
   }
 
   .wheel {
@@ -355,11 +368,26 @@
     transform: none !important;
     opacity: 1 !important;
     filter: none !important;
+    pointer-events: auto !important;
     width: 100%;
-    height: 280px; /* beautiful card height on mobile devices */
+    max-width: 440px; /* beautiful premium max-width so they don't stretch excessively */
+    min-width: 280px; /* minimum width to ensure good layout scale */
+    height: 320px; /* beautiful card height on mobile devices */
+    margin: 0 auto; /* center the cards */
   }
 
   .fluidLineSvg {
     display: none !important; /* hide heavy SVG filters on mobile for buttery smooth performance */
+  }
+
+  .loadMoreWrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: var(--sp-8);
+  }
+
+  .mobileHidden {
+    display: none !important;
   }
 }

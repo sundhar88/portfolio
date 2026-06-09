@@ -7,13 +7,13 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Contact.module.css';
 
 const socials = [
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/sundhar', shortLabel: 'LI' },
-  { label: 'Dribbble', href: 'https://dribbble.com/sundhar', shortLabel: 'Dr' },
-  { label: 'Behance', href: 'https://behance.net/sundhar', shortLabel: 'Be' },
-  { label: 'GitHub', href: 'https://github.com/sundhar', shortLabel: 'GH' },
+  { label: 'LinkedIn', href: 'https://linkedin.com/in/sundharm', shortLabel: 'LI' },
+  { label: 'Dribbble', href: 'https://dribbble.com/sundhar88', shortLabel: 'Dr' },
+  { label: 'Behance', href: 'https://behance.net/sundhardesigns', shortLabel: 'Be' },
+  { label: 'GitHub', href: 'https://github.com/sundhar88', shortLabel: 'GH' },
 ];
 
-const EMAIL = 'sundhar@example.com';
+const EMAIL = 'sundhar.pvt1@gmail.com';
 
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -163,7 +163,7 @@ export default function Contact() {
           </nav>
 
           <div className={styles.footerRight}>
-            <span className="label">© 2024 · Built with precision</span>
+            <span className="label">© 2026 · Built with vibes</span>
           </div>
         </footer>
       </div>

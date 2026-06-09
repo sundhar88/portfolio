@@ -53,8 +53,15 @@
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
 }
 
 .navRight {
@@ -109,10 +116,13 @@
   position: fixed;
   inset: 0;
   z-index: 99;
-  background-color: var(--black);
+  background-color: rgba(10, 10, 10, 0.8);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
   display: flex;
   align-items: stretch;
   will-change: clip-path;
+  overflow-y: auto;
 }
 
 .menuInner {
@@ -120,7 +130,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: calc(var(--nav-height) + var(--sp-16)) var(--container-pad) var(--sp-12);
+  min-height: 100%;
+  box-sizing: border-box;
+  padding: calc((var(--nav-height) + var(--sp-16)) / 2) var(--container-pad) var(--sp-12);
 }
 
 .menuLinks {
@@ -141,13 +153,15 @@
   color: var(--white);
   padding: var(--sp-3) 0;
   border-bottom: 1px solid var(--border);
-  transition: color var(--duration-fast) var(--ease-out);
+  transition: color var(--duration-fast) var(--ease-out),
+              font-weight var(--duration-fast) var(--ease-out);
   overflow: hidden;
   position: relative;
 }
 
 .menuLink:hover {
   color: var(--off-white);
+  font-weight: 700;
 }
 
 .menuLink:hover .menuLinkArrow {

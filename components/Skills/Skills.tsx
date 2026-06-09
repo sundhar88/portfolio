@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './Skills.module.css';
+import LogoLoop from '@/components/LogoLoop/LogoLoop';
 
 const tiles = [
   { label: 'Figma', type: 'primary', size: 'large', iconType: 'simple', iconName: 'figma' },
@@ -167,17 +168,17 @@ export default function Skills() {
         });
       }
 
-      // Tools row
-      const toolEls = sectionRef.current?.querySelectorAll(`.${styles.toolItem}`);
-      if (toolEls) {
+      // Tools row fade-in
+      const toolsContainer = sectionRef.current?.querySelector(`.${styles.toolsListContainer}`);
+      if (toolsContainer) {
         ScrollTrigger.create({
           trigger: `.${styles.toolsRow}`,
           start: 'top 85%',
           onEnter: () => {
             gsap.fromTo(
-              toolEls,
-              { x: -20, opacity: 0 },
-              { x: 0, opacity: 1, stagger: 0.07, duration: 0.5, ease: 'power2.out' }
+              toolsContainer,
+              { y: 15, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' }
             );
           },
           once: true,
@@ -222,18 +223,32 @@ export default function Skills() {
           ))}
         </div>
 
-        {/* Tools Row */}
+        {/* Tools Row with Scrolling Loop */}
         <div className={styles.toolsRow} aria-label="Tools used">
           <span className={`${styles.toolsLabel} label`}>Tools</span>
-          <div className={styles.toolsList}>
-            {tools.map((tool) => (
-              <div key={tool.label} className={styles.toolItem}>
-                <span className={styles.toolIcon} aria-hidden="true">
-                  {renderIcon(tool.iconType, tool.iconName)}
-                </span>
-                <span className={styles.toolLabel}>{tool.label}</span>
-              </div>
-            ))}
+          <div className={styles.toolsListContainer}>
+            <LogoLoop
+              logos={tools.map((tool) => ({
+                node: (
+                  <div className={styles.toolItem}>
+                    <span className={styles.toolIcon} aria-hidden="true">
+                      {renderIcon(tool.iconType, tool.iconName)}
+                    </span>
+                    <span className={styles.toolLabel}>{tool.label}</span>
+                  </div>
+                ),
+                title: tool.label
+              }))}
+              speed={45}
+              direction="left"
+              logoHeight={24}
+              gap={32}
+              hoverSpeed={0}
+              scaleOnHover={false}
+              fadeOut={true}
+              fadeOutColor="var(--black)"
+              ariaLabel="Tools and technologies used"
+            />
           </div>
         </div>
       </div>

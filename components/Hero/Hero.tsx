@@ -197,7 +197,7 @@ export default function Hero() {
 
       {/* Bottom border */}
       <div className={styles.heroBorder} aria-hidden="true">
-        <span className={`${styles.borderLabel} label`}>© 2025</span>
+        <span className={`${styles.borderLabel} label`}>© 2026</span>
         <span className={`${styles.borderLabel} label`}>Chennai, IN</span>
       </div>
     </section>

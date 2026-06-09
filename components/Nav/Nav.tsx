@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
 import styles from './Nav.module.css';
+import { getLenis } from '@/lib/gsap-config';
 
 const navLinks = [
   { label: 'Work', href: '#work' },
@@ -20,13 +21,23 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
 
-  // Scroll shrink effect
+  // Scroll shrink effect & body scroll tracking
   useEffect(() => {
     const handleScroll = () => {
+      const isScrolled = window.scrollY > 50;
       setScrolled(window.scrollY > 80);
+      if (isScrolled) {
+        document.body.classList.add('body-scrolled');
+      } else {
+        document.body.classList.remove('body-scrolled');
+      }
     };
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.body.classList.remove('body-scrolled');
+    };
   }, []);
 
   // Nav entrance animation
@@ -47,9 +58,12 @@ export default function Nav() {
 
     const links = menuRef.current.querySelectorAll(`.${styles.menuLink}`);
     const meta = menuRef.current.querySelectorAll(`.${styles.menuMeta}`);
+    const lenis = getLenis();
 
     if (menuOpen) {
       document.body.style.overflow = 'hidden';
+      document.body.classList.add('nav-menu-open');
+      if (lenis) lenis.stop();
 
       tlRef.current = gsap.timeline();
       tlRef.current
@@ -72,6 +86,8 @@ export default function Nav() {
         );
     } else {
       document.body.style.overflow = '';
+      document.body.classList.remove('nav-menu-open');
+      if (lenis) lenis.start();
 
       if (tlRef.current) {
         tlRef.current.kill();
@@ -82,6 +98,12 @@ export default function Nav() {
         ease: 'power4.inOut',
       });
     }
+
+    return () => {
+      document.body.style.overflow = '';
+      document.body.classList.remove('nav-menu-open');
+      if (lenis) lenis.start();
+    };
   }, [menuOpen]);
 
   const handleLinkClick = () => {
@@ -122,6 +144,7 @@ export default function Nav() {
         className={styles.menuOverlay}
         style={{ clipPath: 'polygon(0 0, 100% 0, 100% 0%, 0 0%)' }}
         aria-hidden={!menuOpen}
+        data-lenis-prevent
       >
         <div ref={menuRef} className={styles.menuInner}>
           <nav className={styles.menuLinks} aria-label="Main navigation">
@@ -147,10 +170,10 @@ export default function Nav() {
             </div>
             <div className={styles.menuSocials}>
               {[
-                { label: 'LinkedIn', href: 'https://linkedin.com' },
-                { label: 'Dribbble', href: 'https://dribbble.com' },
-                { label: 'Behance', href: 'https://behance.net' },
-                { label: 'GitHub', href: 'https://github.com' },
+                { label: 'LinkedIn', href: 'https://linkedin.com/in/sundharm' },
+                { label: 'Dribbble', href: 'https://dribbble.com/sundhar88' },
+                { label: 'Behance', href: 'https://behance.net/sundhardesigns' },
+                { label: 'GitHub', href: 'https://github.com/sundhar88' },
               ].map((s) => (
                 <a
                   key={s.label}

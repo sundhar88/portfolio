@@ -2,12 +2,13 @@
 
 import { useRef } from 'react';
 import styles from './About.module.css';
+import LogoLoop from '../LogoLoop/LogoLoop';
 
 const stats = [
-  { value: '4+', label: 'Years of experience' },
+  { value: '6+', label: 'Years of experience' },
   { value: '20+', label: 'Products shipped' },
   { value: '35%', label: 'Avg. retention lift' },
-  { value: '12', label: 'Teams aligned' },
+  { value: '10+', label: 'Teams aligned' },
 ];
 
 const FigmaIcon = () => (
@@ -75,18 +76,32 @@ export default function About() {
             {/* Skills */}
             <div className={styles.skillsBlock}>
               <span className={`${styles.skillsLabel} label`}>Capabilities</span>
-              <div className={styles.skillTags}>
-                {skills.map((skill) => (
-                  <span key={skill.name} className={`${styles.skillTag} tag`}>
-                    {skill.iconType === 'simple' && skill.iconName === 'figma' && (
-                      <FigmaIcon />
-                    )}
-                    {skill.iconType === 'material' && (
-                      <span className="material-symbols-rounded">{skill.iconName}</span>
-                    )}
-                    <span>{skill.name}</span>
-                  </span>
-                ))}
+              <div className={styles.skillsLoopContainer}>
+                <LogoLoop
+                  logos={skills.map((skill) => ({
+                    node: (
+                      <div className={`${styles.skillTag} tag`}>
+                        {skill.iconType === 'simple' && skill.iconName === 'figma' && (
+                          <FigmaIcon />
+                        )}
+                        {skill.iconType === 'material' && (
+                          <span className="material-symbols-rounded">{skill.iconName}</span>
+                        )}
+                        <span>{skill.name}</span>
+                      </div>
+                    ),
+                    title: skill.name,
+                  }))}
+                  speed={40}
+                  direction="left"
+                  logoHeight={36}
+                  gap={16}
+                  hoverSpeed={0}
+                  scaleOnHover={false}
+                  fadeOut={true}
+                  fadeOutColor="var(--black)"
+                  ariaLabel="Design capabilities"
+                />
               </div>
             </div>
 

@@ -175,11 +175,19 @@
   flex-wrap: wrap;
 }
 
+.toolsListContainer {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+  opacity: 0; /* Animated via GSAP */
+}
+
 .toolItem {
   display: flex;
   align-items: center;
   gap: var(--sp-2);
-  opacity: 0;
+  opacity: 1;
 }
 
 .toolIcon {
