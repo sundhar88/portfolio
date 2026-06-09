@@ -109,107 +109,157 @@ export default function Work() {
       const cards = cardsRef.current.filter(Boolean) as HTMLDivElement[];
       if (!cards.length || !sectionRef.current) return;
 
-      let lastActiveIndex = 0;
+      const mm = gsap.matchMedia();
 
-      // Position cards off-screen left immediately on mount to prevent layout flash
-      const initWidth = window.innerWidth;
-      const initCardWidth = Math.min(290, Math.max(170, initWidth * 0.2));
-      const initRadius = initCardWidth * 2.2;
-      cards.forEach((card, index) => {
-        const cardT = 0 - (index * 0.08);
-        const { x, z, rotateY, opacity, scale } = getCardPathTransform(cardT, initWidth, initRadius);
-        gsap.set(card, {
-          x: x,
-          z: z,
-          rotateY: rotateY,
-          opacity: opacity,
-          scale: scale,
+      // Desktop & Tablet (>= 768px): Pinned 3D roundabout + fluid line
+      mm.add("(min-width: 768px)", () => {
+        let lastActiveIndex = 0;
+
+        // Position cards off-screen left immediately on mount to prevent layout flash
+        const initWidth = window.innerWidth;
+        const initCardWidth = Math.min(290, Math.max(170, initWidth * 0.2));
+        const initRadius = initCardWidth * 2.2;
+        cards.forEach((card, index) => {
+          const cardT = 0 - (index * 0.08);
+          const { x, z, rotateY, opacity, scale } = getCardPathTransform(cardT, initWidth, initRadius);
+          gsap.set(card, {
+            x: x,
+            z: z,
+            rotateY: rotateY,
+            opacity: opacity,
+            scale: scale,
+          });
         });
-      });
 
-      // Create main timeline
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top top',
-          end: '+=200%', // duration of scroll pin (increased to slow down card rotation speed)
-          pin: true,
-          scrub: 1, // smooth scrubbing based on scroll position
-          onUpdate: (self) => {
-            const p = self.progress; // 0 to 1
-            // Map self.progress (0 to 1) to global progress range [0, 1.6]
-            const globalProgress = p * 1.6;
+        // Create main timeline
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top top',
+            end: '+=200%', // duration of scroll pin (increased to slow down card rotation speed)
+            pin: true,
+            scrub: 1, // smooth scrubbing based on scroll position
+            onUpdate: (self) => {
+              const p = self.progress; // 0 to 1
+              // Map self.progress (0 to 1) to global progress range [0, 1.6]
+              const globalProgress = p * 1.6;
 
-            const width = window.innerWidth;
-            const cardWidth = Math.min(290, Math.max(170, width * 0.2));
-            const radius = cardWidth * 2.2;
+              const width = window.innerWidth;
+              const cardWidth = Math.min(290, Math.max(170, width * 0.2));
+              const radius = cardWidth * 2.2;
 
-            let maxZ = -Infinity;
-            let activeIdx = 0;
+              let maxZ = -Infinity;
+              let activeIdx = 0;
 
-            cards.forEach((card, index) => {
-              // Spacing offset between cards is 0.08
-              const cardT = globalProgress - (index * 0.08);
-              const { x, z, rotateY, opacity, scale } = getCardPathTransform(cardT, width, radius);
+              cards.forEach((card, index) => {
+                // Spacing offset between cards is 0.08
+                const cardT = globalProgress - (index * 0.08);
+                const { x, z, rotateY, opacity, scale } = getCardPathTransform(cardT, width, radius);
 
-              gsap.set(card, {
-                x: x,
-                z: z,
-                rotateY: rotateY,
-                opacity: opacity,
-                scale: scale,
+                gsap.set(card, {
+                  x: x,
+                  z: z,
+                  rotateY: rotateY,
+                  opacity: opacity,
+                  scale: scale,
+                });
+
+                // The active card is the one on the circle (phase 2) closest to the viewer (max Z)
+                if (cardT >= 0.2 && cardT <= 0.8) {
+                  if (z > maxZ) {
+                    maxZ = z;
+                    activeIdx = index;
+                  }
+                }
               });
 
-              // The active card is the one on the circle (phase 2) closest to the viewer (max Z)
-              if (cardT >= 0.2 && cardT <= 0.8) {
-                if (z > maxZ) {
-                  maxZ = z;
-                  activeIdx = index;
-                }
+              // Only update React state when activeIndex changes to avoid thrashing
+              if (activeIdx !== lastActiveIndex) {
+                lastActiveIndex = activeIdx;
+                setActiveIndex(activeIdx);
               }
-            });
-
-            // Only update React state when activeIndex changes to avoid thrashing
-            if (activeIdx !== lastActiveIndex) {
-              lastActiveIndex = activeIdx;
-              setActiveIndex(activeIdx);
-            }
+            },
           },
-        },
+        });
+
+        const pathEl = fluidLineRef.current;
+        if (pathEl) {
+          const length = pathEl.getTotalLength();
+          const segmentLength = Math.max(600, length * 0.5);
+          pathEl.style.strokeDasharray = `${segmentLength} ${length}`;
+          gsap.set(pathEl, { strokeDashoffset: segmentLength });
+
+          tl.to(pathEl, {
+            strokeDashoffset: -length,
+            ease: 'none',
+          }, 0);
+        }
+
+        // Section title reveal
+        const title = sectionRef.current?.querySelector(`.${styles.titleLarge}`);
+        if (title) {
+          gsap.fromTo(
+            title,
+            { x: -60, opacity: 0 },
+            {
+              x: 0,
+              opacity: 1,
+              duration: 0.9,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: title,
+                start: 'top 85%',
+                once: true,
+              },
+            }
+          );
+        }
       });
 
-      const pathEl = fluidLineRef.current;
-      if (pathEl) {
-        const length = pathEl.getTotalLength();
-        const segmentLength = Math.max(600, length * 0.5);
-        pathEl.style.strokeDasharray = `${segmentLength} ${length}`;
-        gsap.set(pathEl, { strokeDashoffset: segmentLength });
+      // Mobile (< 768px): Smooth vertical list with simple fade-up transitions
+      mm.add("(max-width: 767px)", () => {
+        // Reset active index to first card
+        setActiveIndex(0);
 
-        tl.to(pathEl, {
-          strokeDashoffset: -length,
-          ease: 'none',
-        }, 0);
-      }
+        // Section title reveal (simpler mobile y-axis movement)
+        const title = sectionRef.current?.querySelector(`.${styles.titleLarge}`);
+        if (title) {
+          gsap.fromTo(
+            title,
+            { y: 30, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.8,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: title,
+                start: 'top 90%',
+                once: true,
+              },
+            }
+          );
+        }
 
-      // Section title reveal
-      const title = sectionRef.current?.querySelector(`.${styles.titleLarge}`);
-      if (title) {
-        gsap.fromTo(
-          title,
-          { x: -60, opacity: 0 },
-          {
-            x: 0,
-            opacity: 1,
-            duration: 0.9,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: title,
-              start: 'top 85%',
-              once: true,
-            },
-          }
-        );
-      }
+        // Lightweight fade-in on scroll for each stacked card wrapper
+        cards.forEach((card) => {
+          gsap.fromTo(
+            card,
+            { y: 40, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.6,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: card,
+                start: 'top 85%',
+                toggleActions: 'play none none reverse',
+              }
+            }
+          );
+        });
+      });
     }, sectionRef);
 
     return () => ctx.revert();
